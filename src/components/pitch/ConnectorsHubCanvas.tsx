@@ -255,11 +255,7 @@ export function ConnectorsHubCanvas({ active = true }: { active?: boolean }) {
         if (flowStep.kind === 'full') setSourceState(s.id, 'done')
         else if (flowStep.kind === 'source' && i < flowStep.index) setSourceState(s.id, 'done')
         else if (flowStep.kind === 'source' && i === flowStep.index) setSourceState(s.id, 'active')
-        else if (
-          flowStep.kind === 'hub' ||
-          flowStep.kind === 'outcome' ||
-          flowStep.kind === 'full'
-        ) {
+        else if (flowStep.kind === 'hub' || flowStep.kind === 'outcome') {
           setSourceState(s.id, 'done')
         } else setSourceState(s.id, 'idle')
       })
@@ -401,18 +397,17 @@ export function ConnectorsHubCanvas({ active = true }: { active?: boolean }) {
 
     const sourceIdx = CONNECTOR_SOURCES.findIndex((s) => s.id === itemId)
     if (sourceIdx >= 0) {
-      if (step.kind === 'hub' || step.kind === 'outcome' || step.kind === 'full') return 'is-done'
+      if (step.kind === 'hub' || step.kind === 'outcome') return 'is-done'
       if (step.kind === 'source' && sourceIdx < step.index) return 'is-done'
     }
 
     const outcomeIdx = CONNECTOR_OUTCOMES.findIndex((o) => o.id === itemId)
     if (outcomeIdx >= 0) {
-      if (step.kind === 'full') return 'is-done'
       if (step.kind === 'outcome' && outcomeIdx < step.index) return 'is-done'
     }
 
     if (itemId === CONNECTOR_HUB.id) {
-      if (step.kind === 'outcome' || step.kind === 'full') return 'is-done'
+      if (step.kind === 'outcome') return 'is-done'
     }
 
     return undefined
